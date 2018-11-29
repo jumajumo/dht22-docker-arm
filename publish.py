@@ -8,6 +8,7 @@ import Adafruit_DHT
 thingid = os.getenv('thingid','default')
 brokeraddr = os.getenv('brokeraddr','openhabian')
 refresh = int(os.getenv('refresh', '5'))
+pin = int(os.getenv('pin', '4'))
 
 thingTopic = "jumajumo/" + thingid + "/"
 refreshTopic = thingTopic + "env/refresh"
@@ -24,7 +25,7 @@ client.publish(refreshTopic, refresh)
 try:
     while True:
 
-        humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, 4)
+        humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, pin)
 
         client.publish(thingTopic + "humidity",humidity)
         client.publish(thingTopic + "temperature", temperature)
