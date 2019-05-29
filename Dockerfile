@@ -1,4 +1,4 @@
-FROM hypriot/rpi-python
+FROM hickey/rpi-python3
 
 RUN apt-get update && \
     apt-get -y install gcc mono-mcs && \
