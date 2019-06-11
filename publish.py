@@ -15,13 +15,14 @@ refreshTopic = thingTopic + "env/refresh"
 
 client = mqtt.Client(thingid)
 
-client.will_set(thingTopic, "undef", qos=1, retain=True)
+client.will_set(thingTopic + "sys/state", "OFFLINE", qos=1, retain=True)
 
 client.connect(brokeraddr)
 
 client.publish(thingTopic, str(datetime.datetime.now()), qos=1, retain=True)
 client.publish(thingTopic + "sys/type", "sensor", qos=1, retain=True)
 client.publish(thingTopic + "sys/device", "dht22", qos=1, retain=True)
+client.publish(thingTopic + "sys/state", "ONLINE", qos=1, retain=True)
 
 client.publish(refreshTopic, refresh, qos=1, retain=True)
 
