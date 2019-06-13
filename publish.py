@@ -11,7 +11,6 @@ refresh = int(os.getenv('refresh', '5'))
 pin = int(os.getenv('pin', '4'))
 
 thingTopic = "jumajumo/" + thingid + "/"
-refreshTopic = thingTopic + "env/refresh"
 
 client = mqtt.Client(thingid)
 
@@ -24,7 +23,10 @@ client.publish(thingTopic + "sys/type", "sensor", qos=1, retain=True)
 client.publish(thingTopic + "sys/device", "dht22", qos=1, retain=True)
 client.publish(thingTopic + "sys/state", "ONLINE", qos=1, retain=True)
 
-client.publish(refreshTopic, refresh, qos=1, retain=True)
+client.publish(thingTopic + "env/thingid", thingid, qos=1, retain=True)
+client.publish(thingTopic + "env/brokeraddr", brokeraddr, qos=1, retain=True)
+client.publish(thingTopic + "env/refresh", refresh, qos=1, retain=True)
+client.publish(thingTopic + "env/pin", pin, qos=1, retain=True)
 
 try:
     while True:
