@@ -16,12 +16,13 @@ client = mqtt.Client(thingid)
 
 client.will_set(thingTopic + "sys/state", "OFFLINE", qos=1, retain=True)
 
-client.connect(brokeraddr)
+client.connect(brokeraddr, keepalive=600)
+
+client.loop_start()
 
 client.publish(thingTopic, str(datetime.datetime.now()), qos=1, retain=True)
 client.publish(thingTopic + "sys/type", "sensor", qos=1, retain=True)
 client.publish(thingTopic + "sys/device", "dht22", qos=1, retain=True)
-client.publish(thingTopic + "sys/state", "ONLINE", qos=1, retain=True)
 
 client.publish(thingTopic + "env/thingid", thingid, qos=1, retain=True)
 client.publish(thingTopic + "env/brokeraddr", brokeraddr, qos=1, retain=True)
@@ -33,8 +34,9 @@ try:
 
         humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, pin)
 
-        client.publish(thingTopic + "humidity",humidity, qos=0, retain=True)
-        client.publish(thingTopic + "temperature", temperature, qos=0, retain=True)
+        client.publish(thingTopic + "sys/state", "ONLINE", qos=2, retain=True)
+        client.publish(thingTopic + "humidity",humidity, qos=1, retain=False)
+        client.publish(thingTopic + "temperature", temperature, qos=1, retain=False)
 
         time.sleep(refresh)
 
