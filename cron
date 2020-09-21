@@ -1,0 +1,2 @@
+*/5 * * * * python3 /var/jumajumo/publish.py >/dev/null 2>&1
+# empty line at the end

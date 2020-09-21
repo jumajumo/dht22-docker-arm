@@ -2,8 +2,16 @@
 import paho.mqtt.client as mqtt
 import time
 import os
+import sys
 import datetime
 import Adafruit_DHT
+
+pid=str(os.getpid())
+pidfile = "publish.pid"
+
+if os.path.isfile(pidfile):
+    sys.exit()
+open(pidfile,"w").write(pid)
 
 thingid = os.getenv('thingid','default')
 brokeraddr = os.getenv('brokeraddr','openhabian')
@@ -42,3 +50,4 @@ try:
 
 except:
     client.disconnect()
+    os.unlink(pidfile)
