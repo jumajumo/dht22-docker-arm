@@ -6,13 +6,6 @@ import sys
 import datetime
 import Adafruit_DHT
 
-pid=str(os.getpid())
-pidfile = "publish.pid"
-
-if os.path.isfile(pidfile):
-    sys.exit()
-open(pidfile,"w").write(pid)
-
 thingid = os.getenv('thingid','default')
 brokeraddr = os.getenv('brokeraddr','openhabian')
 refresh = int(os.getenv('refresh', '5'))
@@ -50,4 +43,3 @@ try:
 
 except:
     client.disconnect()
-    os.unlink(pidfile)
